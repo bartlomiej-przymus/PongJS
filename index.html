@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Game in JavaScript</title>
+    <link rel="stylesheet" href="pong.css">
+    
+</head>
+
+    <body>
+
+        <div id="container">
+
+            <header>
+
+                <h1 id="h1">AWESOME PONG GAME</h1>
+
+            </header>
+
+            <section id="intro">
+
+                <p>Use Up and Down arrow keys to move your PAD</p>
+
+                <p>For two players use A,Z keys for Left Player and UP, Down Arrow keys for right player</p>
+
+            </section>
+
+            <section>
+
+                <h2>Score:</h2>
+
+                <div id="scoreContainer">
+
+                    <p>Player One: <span id="leftScore">00</span> - Lives: <span id="leftLives">3</span></p>
+
+                    <p>Round: <span id="roundCounter">00</span></p>
+
+                    <p>Player Two: <span id="rightScore">00</span> - Lives: <span id="rightLives">3</span></p>
+
+                </div>
+
+            </section>
+
+            <section id="board">
+
+                <canvas id="pongCanvas" width="600" height="300"></canvas>
+
+            </section>
+            
+            <p>Press Space to pause and to start new round</p>
+            <p>Press Enter to start new game</p>
+
+        </div>
+
+        <p>Created by Bartlomiej Przymus - <a href="https://github.com/bartlomiej-przymus/PongJS"></a> Github</p>
+
+        <script src="pong.js"></script>
+        
+    </body>
+
+</html>
