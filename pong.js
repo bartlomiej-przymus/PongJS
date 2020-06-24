@@ -14,6 +14,14 @@ let leftScore = document.getElementById('leftScore');
 let rightScore = document.getElementById('rightScore');
 let roundCounter = document.getElementById('roundCounter');
 
+let die = document.createElement('audio');
+die.src = "./sound/die.wav"
+let wallBounce = document.createElement('audio');
+wallBounce.src = "./sound/bounceWall.wav"
+let paddleBounce = document.createElement('audio');
+paddleBounce.src = "./sound/paddleBounce.wav"
+
+
 window.requestAnimationFrame(mainLoop);
     
 function decrementLeftLives() {
@@ -95,6 +103,7 @@ function gameReset(){
 }
 
 function wallHit() {
+    die.play();
     gameStarted = false;
     ctx.fillStyle = 'red';
     ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -129,20 +138,24 @@ function movePong() {
 
     if(pongX < 0 || pongX > 590) {
         dirX = -dirX;
+        wallBounceWall.play();
     }
    
     if(pongY < 0 || pongY > 290) {
         dirY = -dirY;
+        wallBounce.play();
     }
 
     //Collision detection
 
     if((pongX == padLX + 10)&&(pongY >= padLY)&&(pongY <= padLY + 70)){
         dirX = -dirX;
+        paddleBounce.play();
     }
 
     if((pongX == padRX - 10)&&(pongY >= padRY)&&(pongY <= padRY + 70)){
         dirX = -dirX;
+        paddleBounce.play();
     }
 
     ctx.fillStyle = 'white';
