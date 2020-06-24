@@ -218,7 +218,7 @@ function whichKeyIsDown(event) {
             gameStarted = true;
         }}
     }
-    if(event.keyCode == '13') { //press n for new game
+    if(event.keyCode == '13') { //press enter for new game
         gameReset();
     }
 }
