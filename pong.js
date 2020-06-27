@@ -1,19 +1,45 @@
+// initializing canvas
 const canvas = document.getElementById('pongCanvas');
 const ctx = canvas.getContext('2d');
 
+//pong starting coordinates
 let pongX = 300;
 let pongY = 150;
 
+//lives for left andd right player
 let ll = 3;
 let rl = 3;
 
+//initial direction and speed of the ball
+let dirX = 5;
+let dirY = 5;
+
+//left pad starting position
+let padLX = 0;
+let padLY = 110;
+
+//right pad starting position
+let padRX = 590;
+let padRY = 110;
+
+//key press detection variable switches
+let leftPadKeyUp    = false;
+let leftPadKeyDown  = false;
+let rightPadKeyUp   = false;
+let rightPadKeyDown = false;
+
+//game status variables
+let gameStarted = false;
+let gameFinished = false;
+
+//binding variables to html elements
 let leftLives = document.getElementById('leftLives');
 let rightLives = document.getElementById('rightLives');
-
 let leftScore = document.getElementById('leftScore');
 let rightScore = document.getElementById('rightScore');
 let roundCounter = document.getElementById('roundCounter');
 
+//sound effects initialization
 let die = document.createElement('audio');
 die.src = "./sound/die.wav"
 let wallBounce = document.createElement('audio');
@@ -21,9 +47,10 @@ wallBounce.src = "./sound/bounceWall.wav"
 let paddleBounce = document.createElement('audio');
 paddleBounce.src = "./sound/paddleBounce.wav"
 
-
+//request first frame animation
 window.requestAnimationFrame(mainLoop);
-    
+
+
 function decrementLeftLives() {
     ll = parseInt(leftLives.innerText);
     ll--;
@@ -35,7 +62,6 @@ function decrementRightLives() {
     rl--;
     rightLives.innerText = rl;
 }
-
 
 function incrementLeftScore() {
     let lScore = parseInt(leftScore.innerText);
@@ -74,7 +100,7 @@ function incrementRoundNumber() {
     }
 }
 
-function message(message){
+function displayEndMessage(message){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.font = "30px Orbitron";
     ctx.fillStyle = "white";
@@ -102,7 +128,7 @@ function gameReset(){
     gameFinished = false;
 }
 
-function wallHit() {
+function playerScored() {
     die.play();
     gameStarted = false;
     ctx.fillStyle = 'red';
@@ -116,19 +142,13 @@ function wallHit() {
     padRY = 110;
     incrementRoundNumber();
     if(parseInt(leftLives.innerText) == 0){
-        message('Game Over - Player 2 Wins!')
+        displayEndMessage('Game Over - Player 2 Wins!')
         gameFinished = true;
     }else if(parseInt(rightLives.innerText) == 0){
-        message('Game Over - Player 1 Wins!')
+        displayEndMessage('Game Over - Player 1 Wins!')
         gameFinished = true;
     }
 }
-
-    let dirX = 5;
-    let dirY = 5;
-
-    let pX = 0;
-    let pY = 0;
 
 function movePong() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -136,11 +156,6 @@ function movePong() {
     pongX = pongX + dirX;
     pongY = pongY + dirY;
 
-    if(pongX < 0 || pongX > 590) {
-        dirX = -dirX;
-        wallBounceWall.play();
-    }
-   
     if(pongY < 0 || pongY > 290) {
         dirY = -dirY;
         wallBounce.play();
@@ -166,38 +181,24 @@ function movePong() {
     if(pongX == 0){
         incrementRightScore();
         decrementLeftLives();
-        wallHit();
+        playerScored();
     }
     if(pongX == 590){
         incrementLeftScore();
         decrementRightLives();
-        wallHit();
+        playerScored();
     }
 }
 
-    let padLX = 0;
-    let padLY = 110;
-
-function leftPad() {
+function drawLeftPad() {
     ctx.fillStyle = 'white';
     ctx.fillRect(padLX,padLY,10,70);
 }
 
-    let padRX = 590;
-    let padRY = 110;
-
-function rightPad() {
+function drawRightPad() {
     ctx.fillStyle = 'white';
     ctx.fillRect(padRX,padRY,10,70);
 }
-
-let leftPadKeyUp    = false;
-let leftPadKeyDown  = false;
-let rightPadKeyUp   = false;
-let rightPadKeyDown = false;
-
-let gameStarted = false;
-let gameFinished = false;
 
 function whichKeyIsDown(event) {
     if(event.keyCode == '65') { // a key
@@ -254,14 +255,16 @@ function movePads() {
 document.addEventListener('keydown', whichKeyIsDown, false);
 document.addEventListener('keyup', whichKeyIsUp, false);
 
+//main game loop
 function mainLoop(){
+    
     if(gameStarted){
         movePong();
         movePads();
     }
 
-    leftPad();
-    rightPad();
+    drawLeftPad();
+    drawRightPad();
     
     window.requestAnimationFrame(mainLoop);
 }
